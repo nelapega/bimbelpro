@@ -19,15 +19,17 @@ const { isCurrentUrl } = useCurrentUrl();
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <!-- SidebarGroupLabel dihapus -->
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
-                <!-- Tambahkan class w-full dan buang batas lebar -->
-                <SidebarMenuButton as-child :is-active="item.isActive" class="w-full h-10">
-                    <Link :href="item.href" class="flex items-center gap-3">
-                        <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
-                        <!-- Pastikan span bisa membentang penuh -->
-                        <span class="truncate whitespace-nowrap text-sm">{{ item.title }}</span>
+                <SidebarMenuButton
+                    as-child
+                    :is-active="isCurrentUrl(item.href)"
+                    :tooltip="item.title"
+                >
+                    <Link :href="item.href">
+                        <component :is="item.icon" />
+                        <span>{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>

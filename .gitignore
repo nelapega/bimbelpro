@@ -43,16 +43,3 @@ yarn-error.log
 /boost.json
 /opencode.json
 /opencode.jsonc
-# Environment files
-.env
-.env.*
-!.env.example
-
-# Local SQLite database
-/database/*.sqlite
-/database/*.sqlite-*
-
-# Dependencies and build files
-/vendor
-/node_modules
-/public/build

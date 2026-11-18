@@ -1,34 +1,27 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use RuntimeException;
 
 class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $email = config('bimbelpro.admin.email');
         $password = config('bimbelpro.admin.password');
 
-        if (!$email || !$password) {
-            $this->command?->warn(
-                'Konfigurasi akun admin belum diisi.'
+        if (empty($password)) {
+            throw new RuntimeException(
+                'BIMBELPRO_ADMIN_PASSWORD belum diatur di file .env.'
             );
-
-            return;
         }
 
         $admin = User::firstOrNew([
-            'email' => $email,
+            'email' => config('bimbelpro.admin.email'),
         ]);
 
-        $admin->name = config(
-            'bimbelpro.admin.name',
-            'Admin BimbelPro'
-        );
-
+        $admin->name = config('bimbelpro.admin.name');
         $admin->password = $password;
         $admin->role = 'admin';
         $admin->email_verified_at = now();
