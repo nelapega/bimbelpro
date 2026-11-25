@@ -10,6 +10,42 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
+test('admin user can login and access admin dashboard', function () {
+    $user = User::factory()->admin()->create();
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $dashboardResponse = $this->get(route('dashboard'));
+    $dashboardResponse->assertRedirect(route('admin.dashboard'));
+
+    $adminDashboardResponse = $this->get(route('admin.dashboard'));
+    $adminDashboardResponse->assertOk();
+});
+
+test('tutor user can login and access tutor dashboard', function () {
+    $user = User::factory()->tutor()->create();
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $dashboardResponse = $this->get(route('dashboard'));
+    $dashboardResponse->assertRedirect(route('tutor.dashboard'));
+
+    $tutorDashboardResponse = $this->get(route('tutor.dashboard'));
+    $tutorDashboardResponse->assertOk();
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 

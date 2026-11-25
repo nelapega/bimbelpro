@@ -106,7 +106,7 @@ function logout() {
                         A
                     </div>
                     <div class="min-w-0">
-                        <p class="truncate text-xs font-bold">Admin BimbelPro</p>
+                        <p class="truncate text-xs font-bold">{{ $page.props.auth?.user?.name ?? 'Admin BimbelPro' }}</p>
                         <p class="text-[10px] text-blue-200">Administrator</p>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ function logout() {
 
                 <div class="flex items-center gap-3">
                     <div class="hidden text-right sm:block">
-                        <p class="text-xs font-bold text-slate-700">Admin BimbelPro</p>
+                        <p class="text-xs font-bold text-slate-700">{{ $page.props.auth?.user?.name ?? 'Admin BimbelPro' }}</p>
                         <p class="text-[10px] text-slate-400">Administrator</p>
                     </div>
                     <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-sm font-extrabold text-blue-700">

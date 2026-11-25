@@ -51,7 +51,7 @@ const statistics = [
 
                 <h1 class="mt-3 text-2xl font-extrabold sm:text-3xl">
                     Selamat Datang,
-                    {{ $page.props.auth.user.name }}!
+                    {{ $page.props.auth?.user?.name ?? 'Tutor' }}!
                 </h1>
 
                 <p class="mt-3 max-w-xl text-sm leading-7 text-blue-100/80">

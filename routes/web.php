@@ -15,11 +15,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $user = $request->user();
 
         if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
         if ($user->isTutor()) {
-            return redirect()->route('tutor.dashboard');
+            return redirect()->intended(route('tutor.dashboard', absolute: false));
         }
 
         abort(403, 'Role pengguna tidak dikenali.');
