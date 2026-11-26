@@ -23,38 +23,47 @@ function checkStatus() {
     router.get('/informasi-pendaftaran/cek', { email: emailInput.value });
 }
 
-function getStatusBadge(status: string) {
+const progressSteps = [
+    {
+        key: 'menunggu',
+        step: 1,
+        label: 'Pengajuan Diterima',
+        icon: '📥',
+        desc: 'Berkas pengajuan Anda telah masuk ke sistem dan menunggu giliran peninjauan oleh tim akademik.',
+    },
+    {
+        key: 'sedang_ditinjau',
+        step: 2,
+        label: 'Sedang Ditinjau',
+        icon: '🔍',
+        desc: 'Tim akademik BimbelPro sedang memeriksa kualifikasi Anda. Kami akan menghubungi Anda via WhatsApp/email untuk jadwal wawancara atau microteaching.',
+    },
+    {
+        key: 'diterima',
+        step: 3,
+        label: 'Diterima & Akun Aktif',
+        icon: '✅',
+        desc: 'Selamat! Pengajuan Anda telah disetujui. Akun login Tutor Anda sudah aktif. Silakan masuk ke portal untuk melihat kelas dan jadwal mengajar.',
+    },
+];
+
+function getActiveStepIndex(status: string) {
+    if (status === 'ditolak') return -1;
+    return progressSteps.findIndex(s => s.key === status);
+}
+
+function getStatusInfo(status: string) {
     switch (status) {
         case 'menunggu':
-            return {
-                label: 'Menunggu Pemeriksaan',
-                color: 'bg-amber-100 text-amber-800 border-amber-200',
-                desc: 'Berkas pengajuan Anda telah diterima dan berada dalam antrean peninjauan oleh tim akademik.',
-            };
+            return { label: '📥 Menunggu Pemeriksaan', badgeClass: 'bg-amber-100 text-amber-800 border-amber-200', headerClass: 'from-amber-50 to-orange-50 border-amber-200' };
         case 'sedang_ditinjau':
-            return {
-                label: 'Sedang Ditinjau & Seleksi',
-                color: 'bg-blue-100 text-blue-800 border-blue-200',
-                desc: 'Berkas Anda sedang diproses. Tim kami akan segera menghubungi Anda untuk tahap wawancara / microteaching.',
-            };
+            return { label: '🔍 Sedang Ditinjau & Diproses', badgeClass: 'bg-blue-100 text-blue-800 border-blue-200', headerClass: 'from-blue-50 to-indigo-50 border-blue-200' };
         case 'diterima':
-            return {
-                label: 'Selamat! Diterima Menjadi Tutor',
-                color: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                desc: 'Selamat! Pengajuan Anda telah disetujui. Akun login Tutor Anda telah aktif.',
-            };
+            return { label: '✅ Diterima Menjadi Tutor', badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200', headerClass: 'from-emerald-50 to-teal-50 border-emerald-200' };
         case 'ditolak':
-            return {
-                label: 'Belum Sesuai Kriteria',
-                color: 'bg-rose-100 text-rose-800 border-rose-200',
-                desc: 'Mohon maaf, saat ini kualifikasi yang diajukan belum sesuai dengan kebutuhan formasi bimbingan belajar kami.',
-            };
+            return { label: '❌ Belum Sesuai Kriteria', badgeClass: 'bg-rose-100 text-rose-800 border-rose-200', headerClass: 'from-rose-50 to-pink-50 border-rose-200' };
         default:
-            return {
-                label: status,
-                color: 'bg-slate-100 text-slate-700 border-slate-200',
-                desc: 'Status dalam proses.',
-            };
+            return { label: status, badgeClass: 'bg-slate-100 text-slate-700 border-slate-200', headerClass: 'from-slate-50 to-slate-50 border-slate-200' };
     }
 }
 </script>
@@ -135,53 +144,137 @@ function getStatusBadge(status: string) {
 
                     <!-- HASIL PENCARIAN -->
                     <div v-if="searchedEmail" class="mt-6 border-t border-slate-100 pt-6">
-                        <div v-if="application" class="rounded-2xl border p-5" :class="getStatusBadge(application.status).color">
-                            <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                                <div>
-                                    <h3 class="text-base font-extrabold text-slate-900">
-                                        {{ application.name }}
-                                    </h3>
-                                    <p class="text-xs text-slate-600">
-                                        {{ application.subject_specialization }} • {{ application.education }}
-                                    </p>
+
+                        <!-- DATA DITEMUKAN -->
+                        <div v-if="application">
+
+                            <!-- Header identitas & badge status -->
+                            <div
+                                class="rounded-2xl border bg-gradient-to-br p-5 mb-5"
+                                :class="getStatusInfo(application.status).headerClass"
+                            >
+                                <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                                    <div>
+                                        <h3 class="text-base font-extrabold text-slate-900">{{ application.name }}</h3>
+                                        <p class="text-xs text-slate-600 mt-0.5">{{ application.subject_specialization }} • {{ application.education }}</p>
+                                        <p class="text-[11px] text-slate-400 mt-1">Mendaftar: {{ new Date(application.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) }}</p>
+                                    </div>
+                                    <span class="rounded-full border px-4 py-1.5 text-xs font-extrabold whitespace-nowrap" :class="getStatusInfo(application.status).badgeClass">
+                                        {{ getStatusInfo(application.status).label }}
+                                    </span>
                                 </div>
-                                <span class="rounded-full border px-4 py-1.5 text-xs font-extrabold" :class="getStatusBadge(application.status).color">
-                                    {{ getStatusBadge(application.status).label }}
-                                </span>
                             </div>
 
-                            <p class="mt-4 text-xs leading-relaxed text-slate-700">
-                                {{ getStatusBadge(application.status).desc }}
-                            </p>
+                            <!-- PROGRESS TRACKER (hanya untuk status normal flow, bukan ditolak) -->
+                            <div v-if="application.status !== 'ditolak'" class="rounded-2xl border border-purple-100 bg-white p-5 mb-4">
+                                <p class="text-xs font-extrabold uppercase tracking-wider text-purple-900 mb-5">Progres Seleksi Anda</p>
 
-                            <div v-if="application.admin_notes" class="mt-3 rounded-xl bg-white/80 p-3 text-xs border border-purple-100">
-                                <span class="font-bold text-slate-800">Catatan dari Admin:</span>
-                                <p class="mt-1 text-slate-600">{{ application.admin_notes }}</p>
+                                <!-- Stepper horizontal -->
+                                <div class="relative">
+                                    <!-- Background line -->
+                                    <div class="absolute top-5 h-0.5 bg-slate-100 rounded-full" style="left: 20px; right: 20px;"></div>
+                                    <!-- Progress line filled -->
+                                    <div
+                                        class="absolute top-5 h-0.5 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-700"
+                                        :style="{
+                                            left: '20px',
+                                            width: getActiveStepIndex(application.status) <= 0 ? '0%' :
+                                                   getActiveStepIndex(application.status) === 1 ? '50%' : '100%',
+                                            maxWidth: 'calc(100% - 40px)',
+                                        }"
+                                    ></div>
+
+                                    <div class="relative flex justify-between px-2">
+                                        <div
+                                            v-for="(step, idx) in progressSteps"
+                                            :key="step.key"
+                                            class="flex flex-col items-center gap-2"
+                                            style="width: 33%"
+                                        >
+                                            <!-- Node -->
+                                            <div
+                                                class="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 text-base font-bold transition-all duration-300"
+                                                :class="[
+                                                    application.status === step.key
+                                                        ? 'border-purple-500 bg-purple-600 text-white shadow-lg shadow-purple-200/60 scale-110'
+                                                        : getActiveStepIndex(application.status) > idx
+                                                            ? 'border-emerald-400 bg-emerald-500 text-white'
+                                                            : 'border-slate-200 bg-white text-slate-300'
+                                                ]"
+                                            >
+                                                <span v-if="getActiveStepIndex(application.status) > idx && application.status !== step.key">✓</span>
+                                                <span v-else>{{ step.icon }}</span>
+                                            </div>
+
+                                            <!-- Label -->
+                                            <div class="text-center max-w-[80px]">
+                                                <p class="text-[10px] font-extrabold leading-tight"
+                                                    :class="application.status === step.key ? 'text-purple-700' : getActiveStepIndex(application.status) > idx ? 'text-emerald-600' : 'text-slate-400'">
+                                                    {{ step.label }}
+                                                </p>
+                                                <p class="text-[9px] text-slate-400 mt-0.5 leading-tight">Tahap {{ step.step }} dari 3</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Deskripsi tahap aktif -->
+                                <div class="mt-5 rounded-xl bg-purple-50 border border-purple-100 p-4 text-xs text-slate-600 leading-relaxed">
+                                    <p class="font-bold text-slate-800 mb-1">{{ progressSteps.find(s => s.key === application!.status)?.label }}</p>
+                                    {{ progressSteps.find(s => s.key === application!.status)?.desc }}
+                                </div>
                             </div>
 
-                            <div v-if="application.status === 'diterima'" class="mt-5 border-t border-emerald-200 pt-4">
-                                <p class="text-xs font-semibold text-emerald-800 mb-3">
-                                    Silakan gunakan akun Anda untuk masuk ke Dashboard Tutor:
+                            <!-- STATUS DITOLAK -->
+                            <div v-if="application.status === 'ditolak'" class="rounded-2xl border border-rose-200 bg-rose-50 p-5 mb-4">
+                                <div class="flex gap-3">
+                                    <span class="text-2xl shrink-0">❌</span>
+                                    <div>
+                                        <p class="font-bold text-rose-800 text-sm">Pengajuan Belum Sesuai Kriteria</p>
+                                        <p class="text-xs text-rose-600 mt-1 leading-relaxed">
+                                            Mohon maaf, saat ini kualifikasi yang Anda ajukan belum sesuai dengan kebutuhan formasi tenaga pengajar kami. Anda dapat mencoba mendaftar kembali di lain waktu.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CATATAN DARI ADMIN -->
+                            <div v-if="application.admin_notes" class="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 mb-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-lg shrink-0">💬</span>
+                                    <div class="text-xs">
+                                        <p class="font-extrabold text-indigo-900 mb-1.5">Catatan dari Tim Akademik BimbelPro:</p>
+                                        <p class="text-indigo-700 leading-relaxed italic">"{{ application.admin_notes }}"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTA JIKA DITERIMA -->
+                            <div v-if="application.status === 'diterima'" class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                                <p class="text-sm font-extrabold text-emerald-900 mb-1">🎉 Selamat! Akun Tutor Anda sudah aktif.</p>
+                                <p class="text-xs text-emerald-700 mb-4 leading-relaxed">
+                                    Silakan masuk menggunakan email <strong>{{ application.email }}</strong> dan password yang telah diberikan oleh admin. Ganti password Anda setelah login pertama.
                                 </p>
                                 <Link
                                     href="/login"
-                                    class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-700"
+                                    class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition"
                                 >
                                     Masuk ke Portal Tutor →
                                 </Link>
                             </div>
                         </div>
 
-                        <div v-else class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-center">
-                            <p class="text-sm font-bold text-slate-700">
-                                Data Pendaftaran Tidak Ditemukan
-                            </p>
+                        <!-- DATA TIDAK DITEMUKAN -->
+                        <div v-else class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+                            <p class="text-3xl mb-2">🔎</p>
+                            <p class="text-sm font-bold text-slate-700">Data Pendaftaran Tidak Ditemukan</p>
                             <p class="mt-1 text-xs text-slate-500">
-                                Tidak ada pengajuan pendaftaran dengan email <span class="font-bold text-purple-600">{{ searchedEmail }}</span>.
+                                Tidak ada pengajuan pendaftaran dengan email
+                                <span class="font-bold text-purple-600">{{ searchedEmail }}</span>.
                             </p>
                             <div class="mt-4">
                                 <Link href="/daftar-tutor" class="text-xs font-bold text-purple-600 hover:text-purple-800">
-                                    Ingin mendaftar sebagai tutor baru? Klik di sini →
+                                    Belum mendaftar? Klik di sini untuk daftar sebagai calon tutor →
                                 </Link>
                             </div>
                         </div>
