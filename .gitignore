@@ -43,3 +43,14 @@ yarn-error.log
 /boost.json
 /opencode.json
 /opencode.jsonc
+
+# Storage logs (kecuali file .gitkeep)
+/storage/logs/*.log
+
+# SQLite database lokal
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# OS files
+Thumbs.db
+desktop.ini

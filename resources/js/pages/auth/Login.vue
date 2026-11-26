@@ -1,6 +1,5 @@
-
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, Link } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -14,8 +13,8 @@ import { request } from '@/routes/password';
 
 defineOptions({
     layout: {
-        title: 'Selamat Datang!',
-        description: 'Masuk ke akun BimbelPro untuk mengelola aktivitas bimbingan belajar Anda.',
+        title: 'Masuk ke BimbelPro',
+        description: 'Gunakan akun terdaftar Anda untuk mengelola bimbingan belajar.',
     },
 });
 
@@ -47,11 +46,8 @@ defineProps<{
 
             <!-- EMAIL -->
             <div class="grid gap-2">
-                <Label
-                    for="email"
-                    class="text-sm font-bold text-slate-700"
-                >
-                    Email Address
+                <Label for="email" class="text-xs font-bold text-slate-700">
+                    Alamat Email
                 </Label>
 
                 <Input
@@ -62,8 +58,8 @@ defineProps<{
                     v-focus
                     :tabindex="1"
                     autocomplete="email"
-                    placeholder="Masukkan email Anda"
-                    class="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm shadow-none transition placeholder:text-slate-400 focus-visible:border-blue-500 focus-visible:ring-blue-100"
+                    placeholder="nama@bimbelpro.com"
+                    class="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm shadow-none transition placeholder:text-slate-400 focus-visible:border-purple-500 focus-visible:ring-purple-100"
                 />
 
                 <InputError :message="errors.email" />
@@ -72,20 +68,17 @@ defineProps<{
             <!-- PASSWORD -->
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label
-                        for="password"
-                        class="text-sm font-bold text-slate-700"
-                    >
-                        Password
+                    <Label for="password" class="text-xs font-bold text-slate-700">
+                        Kata Sandi
                     </Label>
 
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
-                        class="text-xs font-semibold text-blue-600 transition hover:text-blue-800"
+                        class="text-xs font-semibold text-purple-600 transition hover:text-purple-800"
                         :tabindex="5"
                     >
-                        Lupa password?
+                        Lupa sandi?
                     </TextLink>
                 </div>
 
@@ -95,8 +88,8 @@ defineProps<{
                     required
                     :tabindex="2"
                     autocomplete="current-password"
-                    placeholder="Masukkan password Anda"
-                    class="h-12 rounded-xl border-slate-200"
+                    placeholder="Masukkan kata sandi akun"
+                    class="h-12 rounded-xl border-slate-200 focus-visible:border-purple-500 focus-visible:ring-purple-100"
                 />
 
                 <InputError :message="errors.password" />
@@ -104,64 +97,47 @@ defineProps<{
 
             <!-- REMEMBER ME -->
             <div class="flex items-center gap-2">
-                <Checkbox
-                    id="remember"
-                    name="remember"
-                    :tabindex="3"
-                />
-
-                <Label
-                    for="remember"
-                    class="cursor-pointer text-xs font-medium text-slate-500"
-                >
-                    Ingat saya
+                <Checkbox id="remember" name="remember" :tabindex="3" />
+                <Label for="remember" class="cursor-pointer text-xs font-medium text-slate-500">
+                    Ingat saya di perangkat ini
                 </Label>
             </div>
 
             <!-- LOGIN BUTTON -->
             <Button
                 type="submit"
-                class="mt-2 h-12 w-full rounded-xl bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-100 transition hover:bg-blue-700"
+                class="mt-2 h-12 w-full rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-purple-500/25 transition hover:brightness-110"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"
             >
                 <Spinner v-if="processing" />
-                {{ processing ? 'Sedang masuk...' : 'Masuk ke Sistem' }}
+                {{ processing ? 'Memverifikasi Akun...' : 'Masuk ke Sistem' }}
             </Button>
         </div>
 
-        <!-- BOTTOM INFORMATION -->
-        <div
-            class="rounded-xl border border-blue-100 bg-blue-50/70 p-4"
-        >
+        <!-- BOTTOM INFORMATION & CALON TUTOR CTA -->
+        <div class="rounded-2xl border border-purple-100 bg-purple-50/70 p-4">
             <div class="flex items-start gap-3">
-                <div
-                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600"
-                >
-                    <svg
-                        class="h-5 w-5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                    >
-                        <path
-                            d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"
-                        />
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-200/70 text-purple-700">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
                         <path d="m9 12 2 2 4-4" />
                     </svg>
                 </div>
 
                 <div>
-                    <p class="text-xs font-bold text-blue-900">
-                        Akses Pengguna Terdaftar
+                    <p class="text-xs font-bold text-purple-950">
+                        Khusus Pengguna Terdaftar
                     </p>
-
-                    <p class="mt-1 text-[11px] leading-5 text-blue-700">
-                        Akun BimbelPro dibuat oleh Admin. Silakan
-                        gunakan email dan password yang telah diberikan.
+                    <p class="mt-1 text-[11px] leading-5 text-purple-800/80">
+                        Akun Admin dan Tutor diterbitkan oleh sistem BimbelPro. Belum memiliki akun pengajar?
                     </p>
+                    <div class="mt-2">
+                        <Link href="/daftar-tutor" class="text-xs font-extrabold text-purple-700 hover:text-purple-900 underline">
+                            Ajukan Pendaftaran Jadi Calon Tutor →
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

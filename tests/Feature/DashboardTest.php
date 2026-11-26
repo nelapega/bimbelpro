@@ -29,7 +29,7 @@ test('admin can access admin dashboard', function () {
 
     $response = $this->actingAs($user)->get(route('admin.dashboard'));
     $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page->component('Admin/Dashboard'));
+        ->assertInertia(fn (Assert $page) => $page->component('admin/Dashboard'));
 });
 
 test('tutor can access tutor dashboard', function () {
@@ -37,7 +37,7 @@ test('tutor can access tutor dashboard', function () {
 
     $response = $this->actingAs($user)->get(route('tutor.dashboard'));
     $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page->component('Tutor/Dashboard'));
+        ->assertInertia(fn (Assert $page) => $page->component('tutor/Dashboard'));
 });
 
 test('tutor cannot access admin dashboard', function () {

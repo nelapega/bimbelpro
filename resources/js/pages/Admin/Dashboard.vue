@@ -1,317 +1,242 @@
-
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 
 defineOptions({
     layout: AdminLayout,
 });
 
-const statistics = [
-    {
-        title: 'Total Siswa',
-        value: '—',
-        description: 'Jumlah seluruh siswa',
-        icon: '♙',
-        color: 'bg-blue-50 text-blue-600',
-    },
-    {
-        title: 'Total Tutor',
-        value: '—',
-        description: 'Pengajar terdaftar',
-        icon: '♧',
-        color: 'bg-indigo-50 text-indigo-600',
-    },
-    {
-        title: 'Kelas Aktif',
-        value: '—',
-        description: 'Kelas berjalan',
-        icon: '▤',
-        color: 'bg-emerald-50 text-emerald-600',
-    },
-    {
-        title: 'Tagihan Belum Lunas',
-        value: '—',
-        description: 'Tagihan menunggu pembayaran',
-        icon: 'Rp',
-        color: 'bg-amber-50 text-amber-600',
-    },
-];
+defineProps<{
+    stats: {
+        totalStudents: number;
+        totalTutors: number;
+        totalClassrooms: number;
+        unpaidInvoices: number;
+        pendingTutorApplications: number;
+        reviewingTutorApplications: number;
+        acceptedTutorApplications: number;
+    };
+    recentPayments: Array<{
+        id: number;
+        payment_number: string;
+        amount: number;
+        payment_date: string;
+        payment_method: string;
+        student?: { name: string };
+    }>;
+    todaySchedules: Array<{
+        id: number;
+        day: string;
+        start_time: string;
+        end_time: string;
+        room: string;
+        topic?: string;
+        classroom?: { name: string };
+        tutor?: { name: string };
+    }>;
+    recentApplications: Array<{
+        id: number;
+        name: string;
+        email: string;
+        subject_specialization: string;
+        status: string;
+        created_at: string;
+    }>;
+}>();
 
-const quickActions = [
-    {
-        title: 'Tambah Siswa',
-        description: 'Daftarkan siswa baru',
-        icon: '♙',
-        color: 'bg-blue-50 text-blue-600',
-    },
-    {
-        title: 'Tambah Tutor',
-        description: 'Tambahkan pengajar',
-        icon: '♧',
-        color: 'bg-indigo-50 text-indigo-600',
-    },
-    {
-        title: 'Buat Kelas',
-        description: 'Kelola kelas belajar',
-        icon: '▤',
-        color: 'bg-emerald-50 text-emerald-600',
-    },
-    {
-        title: 'Atur Jadwal',
-        description: 'Susun jadwal belajar',
-        icon: '◷',
-        color: 'bg-amber-50 text-amber-600',
-    },
-];
+function formatRupiah(amount: number) {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
 </script>
 
 <template>
     <Head title="Dashboard Admin | BimbelPro" />
 
-    <div class="space-y-7">
+    <div class="space-y-8">
 
-        <!-- PAGE TITLE -->
-        <section class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-                <div class="mb-2 flex items-center gap-2">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                    <p class="text-[10px] font-bold tracking-[1.5px] text-emerald-600">
-                        ADMINISTRATOR PANEL
-                    </p>
-                </div>
+        <!-- WELCOME BANNER -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#3B0764] via-[#581C87] to-[#7C3AED] p-7 text-white shadow-xl sm:p-9">
+            <div class="relative z-10">
+                <span class="rounded-full bg-purple-400/30 px-3.5 py-1 text-[10px] font-bold tracking-[2px] text-purple-200 uppercase">
+                    PUSAT KENDALI ADMINISTRATOR
+                </span>
 
-                <h1 class="text-2xl font-extrabold tracking-tight text-[#142B55] sm:text-3xl">
-                    Dashboard
+                <h1 class="mt-3 text-2xl font-extrabold sm:text-3xl">
+                    Selamat Datang, {{ $page.props.auth?.user?.name ?? 'Admin BimbelPro' }}!
                 </h1>
 
-                <p class="mt-2 text-xs leading-6 text-slate-500 sm:text-sm">
-                    Selamat datang di BimbelPro. Pantau aktivitas bimbingan belajar Anda di sini.
+                <p class="mt-2 max-w-xl text-xs sm:text-sm text-purple-100/80 leading-relaxed">
+                    Sistem BimbelPro siap memonitor perkembangan siswa, jadwal pengajar, presensi kehadiran, tagihan SPP, dan seleksi tutor hari ini.
                 </p>
             </div>
+        </section>
 
-            <div class="flex items-center gap-2 self-start rounded-xl border border-slate-200 bg-white px-4 py-3 sm:self-auto">
-                <span class="text-lg text-blue-600">◷</span>
+        <!-- MAIN STATS CARDS -->
+        <section class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <!-- TOTAL SISWA -->
+            <div class="rounded-2xl border border-purple-100/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-100 text-purple-700 text-lg font-bold">
+                        ♙
+                    </div>
+                    <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Aktif</span>
+                </div>
+                <p class="mt-4 text-xs font-semibold text-slate-500">Total Siswa Terdaftar</p>
+                <h3 class="mt-1 text-3xl font-extrabold text-slate-900">{{ stats.totalStudents }}</h3>
+                <Link href="/admin/siswa" class="mt-3 inline-block text-[11px] font-bold text-purple-600 hover:text-purple-800">
+                    Lihat Data Siswa →
+                </Link>
+            </div>
+
+            <!-- TOTAL TUTOR -->
+            <div class="rounded-2xl border border-purple-100/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 text-lg font-bold">
+                        ♧
+                    </div>
+                    <span class="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full">Pengajar</span>
+                </div>
+                <p class="mt-4 text-xs font-semibold text-slate-500">Tutor Aktif Mengajar</p>
+                <h3 class="mt-1 text-3xl font-extrabold text-slate-900">{{ stats.totalTutors }}</h3>
+                <Link href="/admin/tutor" class="mt-3 inline-block text-[11px] font-bold text-purple-600 hover:text-purple-800">
+                    Kelola Tutor →
+                </Link>
+            </div>
+
+            <!-- KELAS AKTIF -->
+            <div class="rounded-2xl border border-purple-100/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-fuchsia-100 text-fuchsia-700 text-lg font-bold">
+                        ▤
+                    </div>
+                    <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">Reguler/UTBK</span>
+                </div>
+                <p class="mt-4 text-xs font-semibold text-slate-500">Kelas Belajar Aktif</p>
+                <h3 class="mt-1 text-3xl font-extrabold text-slate-900">{{ stats.totalClassrooms }}</h3>
+                <Link href="/admin/kelas" class="mt-3 inline-block text-[11px] font-bold text-purple-600 hover:text-purple-800">
+                    Atur Kelas & Ruang →
+                </Link>
+            </div>
+
+            <!-- TAGIHAN BELUM LUNAS -->
+            <div class="rounded-2xl border border-purple-100/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-700 text-lg font-bold">
+                        Rp
+                    </div>
+                    <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Tagihan</span>
+                </div>
+                <p class="mt-4 text-xs font-semibold text-slate-500">Piutang SPP Belum Lunas</p>
+                <h3 class="mt-1 text-xl font-extrabold text-slate-900 truncate">{{ formatRupiah(stats.unpaidInvoices) }}</h3>
+                <Link href="/admin/tagihan" class="mt-3 inline-block text-[11px] font-bold text-purple-600 hover:text-purple-800">
+                    Buka Riwayat Tagihan →
+                </Link>
+            </div>
+        </section>
+
+        <!-- SELEKSI CALON TUTOR BANNER (Highlight Fitur Pembeda) -->
+        <section class="rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-50 via-white to-indigo-50 p-6 shadow-sm sm:p-7">
+            <div class="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
                 <div>
-                    <p class="text-[10px] font-bold text-slate-700">
-                        Ringkasan Sistem
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-purple-600"></span>
+                        <p class="text-xs font-bold text-purple-800 tracking-wider uppercase">
+                            STATUS SELEKSI PENERIMAAN TUTOR
+                        </p>
+                    </div>
+                    <h2 class="mt-1 text-lg font-extrabold text-slate-900">
+                        {{ stats.pendingTutorApplications }} Calon Tutor Menunggu Pemeriksaan
+                    </h2>
+                    <p class="mt-1 text-xs text-slate-500">
+                        Ada {{ stats.reviewingTutorApplications }} sedang ditinjau/wawancara dan {{ stats.acceptedTutorApplications }} telah resmi diterima.
                     </p>
-                    <p class="text-[9px] text-slate-400">
-                        Data terbaru
-                    </p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <Link
+                        href="/admin/pendaftaran-tutor"
+                        class="rounded-xl bg-purple-600 px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-purple-500/20 hover:bg-purple-700 transition"
+                    >
+                        Tinjau Berkas Pendaftar →
+                    </Link>
                 </div>
             </div>
         </section>
 
-        <!-- STATISTICS -->
-        <section>
-            <div class="mb-4 flex items-center justify-between">
-                <h2 class="text-sm font-extrabold text-[#172554]">
-                    Ringkasan Aktivitas
-                </h2>
+        <!-- SCHEDULE TODAY & PAYMENTS -->
+        <section class="grid gap-6 lg:grid-cols-2">
 
-                <span class="text-[10px] font-medium text-slate-400">
-                    Statistik sistem
-                </span>
-            </div>
+            <!-- JADWAL HARI INI -->
+            <div class="rounded-3xl border border-purple-100 bg-white p-6 shadow-sm">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <div>
+                        <h2 class="text-base font-extrabold text-slate-900">Jadwal Belajar Hari Ini</h2>
+                        <p class="text-xs text-slate-400">Sesi kelas berlangsung</p>
+                    </div>
+                    <Link href="/admin/jadwal" class="text-xs font-bold text-purple-600 hover:text-purple-800">
+                        Semua Jadwal →
+                    </Link>
+                </div>
 
-            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <div
-                    v-for="item in statistics"
-                    :key="item.title"
-                    class="group rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-100/50"
-                >
-                    <div class="flex items-center justify-between">
-                        <div
-                            class="flex h-11 w-11 items-center justify-center rounded-xl text-lg font-bold"
-                            :class="item.color"
-                        >
-                            {{ item.icon }}
+                <div v-if="todaySchedules.length > 0" class="mt-4 space-y-3">
+                    <div
+                        v-for="item in todaySchedules"
+                        :key="item.id"
+                        class="flex items-center justify-between rounded-2xl bg-purple-50/50 p-4 border border-purple-100/60"
+                    >
+                        <div>
+                            <p class="text-xs font-extrabold text-slate-900">{{ item.classroom?.name }}</p>
+                            <p class="text-[11px] text-purple-700 font-medium">Tutor: {{ item.tutor?.name }} • {{ item.room }}</p>
                         </div>
-
-                        <span class="text-[9px] font-semibold text-slate-300">
-                            BIMBELPRO
+                        <span class="rounded-xl bg-white px-3 py-1.5 text-xs font-extrabold text-slate-800 shadow-sm border border-purple-100">
+                            {{ item.start_time }} - {{ item.end_time }}
                         </span>
                     </div>
+                </div>
 
-                    <p class="mt-5 text-xs font-semibold text-slate-500">
-                        {{ item.title }}
-                    </p>
-
-                    <h3 class="mt-1 text-3xl font-extrabold tracking-tight text-[#142B55]">
-                        {{ item.value }}
-                    </h3>
-
-                    <p class="mt-2 text-[10px] text-slate-400">
-                        {{ item.description }}
-                    </p>
+                <div v-else class="mt-6 py-8 text-center text-xs text-slate-400">
+                    Tidak ada jadwal kelas untuk hari ini.
                 </div>
             </div>
-        </section>
 
-        <!-- QUICK ACTIONS -->
-        <section>
-            <div class="mb-4">
-                <h2 class="text-sm font-extrabold text-[#172554]">
-                    Akses Cepat
-                </h2>
-                <p class="mt-1 text-[10px] text-slate-400">
-                    Pintasan untuk aktivitas administrasi.
-                </p>
-            </div>
+            <!-- PEMBAYARAN TERBARU -->
+            <div class="rounded-3xl border border-purple-100 bg-white p-6 shadow-sm">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <div>
+                        <h2 class="text-base font-extrabold text-slate-900">Pembayaran SPP Masuk</h2>
+                        <p class="text-xs text-slate-400">Transaksi siswa terkini</p>
+                    </div>
+                    <Link href="/admin/pembayaran" class="text-xs font-bold text-purple-600 hover:text-purple-800">
+                        Riwayat →
+                    </Link>
+                </div>
 
-            <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                <div
-                    v-for="action in quickActions"
-                    :key="action.title"
-                    class="flex items-center gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition hover:border-blue-200 hover:shadow-md"
-                >
+                <div v-if="recentPayments.length > 0" class="mt-4 space-y-3">
                     <div
-                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg font-bold"
-                        :class="action.color"
+                        v-for="pay in recentPayments"
+                        :key="pay.id"
+                        class="flex items-center justify-between rounded-2xl bg-slate-50/80 p-3.5 border border-slate-100"
                     >
-                        {{ action.icon }}
+                        <div>
+                            <p class="text-xs font-bold text-slate-900">{{ pay.student?.name }}</p>
+                            <p class="text-[10px] text-slate-400">{{ pay.payment_number }} • {{ pay.payment_date }}</p>
+                        </div>
+                        <span class="text-xs font-extrabold text-emerald-600">
+                            +{{ formatRupiah(pay.amount) }}
+                        </span>
                     </div>
+                </div>
 
-                    <div class="min-w-0">
-                        <p class="truncate text-xs font-bold text-[#172554]">
-                            {{ action.title }}
-                        </p>
-                        <p class="mt-1 text-[9px] text-slate-400">
-                            {{ action.description }}
-                        </p>
-                    </div>
+                <div v-else class="mt-6 py-8 text-center text-xs text-slate-400">
+                    Belum ada catatan pembayaran terbaru.
                 </div>
             </div>
 
-            <p class="mt-3 text-[10px] text-slate-400">
-                Pintasan ini merupakan rancangan tampilan. Fungsinya akan kita hubungkan saat modul masing-masing selesai dibuat.
-            </p>
         </section>
 
-        <!-- CHART AND SCHEDULE -->
-        <section class="grid gap-5 xl:grid-cols-3">
-
-            <!-- PAYMENT CHART -->
-            <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm xl:col-span-2">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <h2 class="text-sm font-extrabold text-[#172554]">
-                            Statistik Pembayaran
-                        </h2>
-                        <p class="mt-1 text-[10px] text-slate-400">
-                            Ringkasan pemasukan bimbingan belajar.
-                        </p>
-                    </div>
-
-                    <span class="rounded-lg bg-blue-50 px-3 py-2 text-[10px] font-bold text-blue-600">
-                        Per Bulan
-                    </span>
-                </div>
-
-                <div class="mt-7 flex h-[220px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 text-center">
-                    <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-xl text-blue-600">
-                        ↗
-                    </div>
-
-                    <p class="text-xs font-bold text-slate-600">
-                        Belum Ada Data Pembayaran
-                    </p>
-
-                    <p class="mt-2 max-w-xs text-[10px] leading-5 text-slate-400">
-                        Grafik pemasukan akan ditampilkan setelah data tagihan dan transaksi pembayaran tersedia.
-                    </p>
-                </div>
-            </div>
-
-            <!-- TODAY SCHEDULE -->
-            <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                <div>
-                    <h2 class="text-sm font-extrabold text-[#172554]">
-                        Jadwal Hari Ini
-                    </h2>
-                    <p class="mt-1 text-[10px] text-slate-400">
-                        Aktivitas pembelajaran.
-                    </p>
-                </div>
-
-                <div class="mt-6 flex min-h-[190px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 text-center">
-                    <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-xl text-indigo-600">
-                        ◷
-                    </div>
-
-                    <p class="text-xs font-bold text-slate-600">
-                        Belum Ada Jadwal
-                    </p>
-
-                    <p class="mt-2 text-[10px] leading-5 text-slate-400">
-                        Jadwal belajar yang tersimpan akan muncul di sini.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- BOTTOM SECTION -->
-        <section class="grid gap-5 lg:grid-cols-2">
-
-            <!-- RECENT ACTIVITIES -->
-            <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                <div class="mb-5 flex items-center justify-between">
-                    <div>
-                        <h2 class="text-sm font-extrabold text-[#172554]">
-                            Aktivitas Terbaru
-                        </h2>
-                        <p class="mt-1 text-[10px] text-slate-400">
-                            Riwayat aktivitas sistem.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex min-h-[115px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 text-center">
-                    <p class="text-xs font-semibold text-slate-500">
-                        Belum Ada Aktivitas
-                    </p>
-                    <p class="mt-2 text-[10px] text-slate-400">
-                        Aktivitas terbaru akan ditampilkan di sini.
-                    </p>
-                </div>
-            </div>
-
-            <!-- UNPAID INVOICES -->
-            <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                <div class="mb-5">
-                    <h2 class="text-sm font-extrabold text-[#172554]">
-                        Pengingat Tagihan
-                    </h2>
-                    <p class="mt-1 text-[10px] text-slate-400">
-                        Daftar pembayaran yang belum lunas.
-                    </p>
-                </div>
-
-                <div class="flex min-h-[115px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 text-center">
-                    <p class="text-xs font-semibold text-slate-500">
-                        Belum Ada Tagihan
-                    </p>
-                    <p class="mt-2 text-[10px] text-slate-400">
-                        Tagihan siswa akan muncul setelah dibuat oleh Admin.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER NOTE -->
-        <div class="rounded-xl border border-blue-100 bg-blue-50/70 px-5 py-4">
-            <div class="flex items-start gap-3">
-                <span class="text-lg text-blue-600">ⓘ</span>
-                <div>
-                    <p class="text-xs font-bold text-blue-900">
-                        Informasi Dashboard
-                    </p>
-                    <p class="mt-1 text-[10px] leading-5 text-blue-700">
-                        Statistik akan diperbarui secara otomatis berdasarkan data yang tersimpan di database BimbelPro.
-                    </p>
-                </div>
-            </div>
-        </div>
     </div>
 </template>

@@ -1,51 +1,108 @@
-
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { dashboard, login } from '@/routes';
+
+const features = [
+    {
+        title: 'Manajemen Data Siswa',
+        description: 'Kelola data identitas, NIS, jenjang kelas, kontak wali, dan riwayat belajar siswa secara rapi.',
+        icon: '♙',
+        color: 'from-purple-500 to-indigo-600',
+    },
+    {
+        title: 'Seleksi & Akun Tutor',
+        description: 'Alur pendaftaran calon tutor terpadu dengan peninjauan berkas, seleksi, dan aktivasi akun otomatis.',
+        icon: '♧',
+        color: 'from-purple-600 to-fuchsia-600',
+    },
+    {
+        title: 'Presensi Digital Terintegrasi',
+        description: 'Tutor dapat mencatat kehadiran Hadir, Izin, Sakit, atau Alpa langsung per kelas secara realtime.',
+        icon: '✓',
+        color: 'from-indigo-500 to-purple-600',
+    },
+    {
+        title: 'Kelas & Jadwal Belajar',
+        description: 'Pengaturan kapasitas ruangan, pembagian mata pelajaran, penugasan tutor, dan jadwal mingguan terstruktur.',
+        icon: '◷',
+        color: 'from-purple-500 to-pink-500',
+    },
+    {
+        title: 'Administrasi & Tagihan SPP',
+        description: 'Pembuatan invoice otomatis, pelacakan tagihan jatuh tempo, dan validasi riwayat pembayaran.',
+        icon: 'Rp',
+        color: 'from-purple-600 to-violet-700',
+    },
+    {
+        title: 'Laporan & Rekap Komprehensif',
+        description: 'Pantau pertumbuhan siswa, rekapitulasi absensi kelas, dan laporan keuangan bimbel dalam satu tempat.',
+        icon: '▥',
+        color: 'from-violet-600 to-purple-800',
+    },
+];
+
+const stats = [
+    { value: '1.200+', label: 'Siswa Berprestasi' },
+    { value: '50+', label: 'Tutor Ahli & Berlisensi' },
+    { value: '98.4%', label: 'Tingkat Kelulusan Ujian' },
+    { value: '15+', label: 'Kelas Aktif Unggulan' },
+];
+
+const sampleClasses = [
+    {
+        title: '12 SMA Intensif UTBK SNBT',
+        category: 'Matematika & TPS',
+        tutor: 'Rian Hidayat, S.Pd.',
+        badge: 'Program Favorit',
+        rating: '4.9 (148 ulasan)',
+        sessions: '16 Sesi Belajar',
+    },
+    {
+        title: '11 SMA Fisika Master Class',
+        category: 'Fisika & Olimpiade',
+        tutor: 'Sarah Azzahra, M.Si.',
+        badge: 'Persiapan Juara',
+        rating: '4.9 (96 ulasan)',
+        sessions: '14 Sesi Belajar',
+    },
+    {
+        title: '9 SMP Sukses Asesmen Nasional',
+        category: 'Matematika & Sains',
+        tutor: 'Dimas Pratama, S.Si.',
+        badge: 'Reguler Juara',
+        rating: '4.8 (112 ulasan)',
+        sessions: '12 Sesi Belajar',
+    },
+];
 </script>
 
 <template>
-    <Head title="BimbelPro - Sistem Manajemen Bimbingan Belajar">
+    <Head title="BimbelPro - Sistem Terpadu Manajemen Bimbingan Belajar">
         <meta
             name="description"
-            content="BimbelPro membantu pengelola bimbingan belajar mengelola siswa, tutor, kelas, jadwal, absensi, dan pembayaran dalam satu sistem."
+            content="BimbelPro mempermudah pengelolaan bimbel: manajemen siswa, jadwal, presensi tutor, administrasi keuangan, dan seleksi pengajar profesional."
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossorigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
         <link
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
     </Head>
 
-    <div
-        class="min-h-screen scroll-smooth bg-[#F7F9FD] font-['Plus_Jakarta_Sans'] text-[#172554]"
-    >
-        <!-- NAVBAR -->
-        <header
-            class="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur-xl"
-        >
-            <div
-                class="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-8"
+    <div class="min-h-screen bg-[#FAF8FF] font-['Plus_Jakarta_Sans'] text-slate-800 selection:bg-purple-500 selection:text-white">
+
+        <!-- LIQUID GLASS FLOATING NAVBAR -->
+        <header class="fixed inset-x-0 top-3 z-50 px-4 sm:px-6 lg:px-8">
+            <nav
+                class="mx-auto flex h-[68px] max-w-7xl items-center justify-between rounded-2xl border border-white/60 bg-white/70 px-5 shadow-lg shadow-purple-500/5 backdrop-blur-xl transition hover:border-purple-200/70 sm:px-7"
             >
-                <!-- LOGO -->
-                <a href="#beranda" class="flex items-center gap-2.5">
+                <!-- BRAND LOGO -->
+                <Link href="/" class="flex items-center gap-3">
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-200"
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/25"
                     >
-                        <svg
-                            class="h-6 w-6"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="m2 10 10-6 10 6-10 6-10-6Z" />
                             <path d="M6 12.5v4.5c3.5 3 8.5 3 12 0v-4.5" />
                             <path d="M22 10v6" />
@@ -53,1041 +110,401 @@ import { dashboard, login } from '@/routes';
                     </div>
 
                     <div class="leading-tight">
-                        <span class="text-xl font-extrabold tracking-tight text-[#172554]">
-                            Bimbel<span class="text-blue-600">Pro</span>
+                        <span class="text-xl font-extrabold tracking-tight text-slate-900">
+                            Bimbel<span class="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">Pro</span>
                         </span>
-                        <span class="block text-[9px] font-semibold tracking-[2px] text-slate-400">
-                            LEARNING MANAGEMENT
+                        <span class="block text-[8px] font-bold tracking-[2px] text-purple-700/80">
+                            LEARNING ECOSYSTEM
                         </span>
                     </div>
-                </a>
+                </Link>
 
-                <!-- NAVIGATION -->
-                <nav
-                    class="hidden items-center gap-9 text-[13px] font-semibold text-slate-500 md:flex"
-                >
-                    <a
-                        href="#beranda"
-                        class="transition hover:text-blue-600"
-                    >
-                        Beranda
-                    </a>
-                    <a
-                        href="#fitur"
-                        class="transition hover:text-blue-600"
-                    >
-                        Fitur
-                    </a>
-                    <a
-                        href="#cara-kerja"
-                        class="transition hover:text-blue-600"
-                    >
-                        Cara Kerja
-                    </a>
-                    <a
-                        href="#tentang"
-                        class="transition hover:text-blue-600"
-                    >
-                        Tentang Sistem
-                    </a>
-                </nav>
+                <!-- NAVIGATION LINKS -->
+                <div class="hidden items-center gap-8 text-[13px] font-semibold text-slate-600 md:flex">
+                    <a href="#beranda" class="transition hover:text-purple-600">Beranda</a>
+                    <a href="#fitur" class="transition hover:text-purple-600">Fitur Sistem</a>
+                    <a href="#seleksi-tutor" class="transition hover:text-purple-600">Alur Penerimaan</a>
+                    <Link href="/informasi-pendaftaran" class="transition hover:text-purple-600">
+                        Cek Status Calon Tutor
+                    </Link>
+                </div>
 
-                <!-- LOGIN BUTTON -->
-                <div>
+                <!-- ACTIONS -->
+                <div class="flex items-center gap-3">
                     <Link
-                        v-if="$page.props.auth.user"
-                        :href="dashboard()"
-                        class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+                        href="/daftar-tutor"
+                        class="hidden rounded-xl border border-purple-200/80 bg-purple-50/80 px-4 py-2 text-xs font-bold text-purple-700 backdrop-blur-md transition hover:bg-purple-100 hover:text-purple-800 sm:inline-flex"
                     >
-                        Dashboard
-                        <span>→</span>
+                        Daftar Jadi Tutor
+                    </Link>
+
+                    <Link
+                        v-if="$page.props.auth?.user"
+                        :href="dashboard()"
+                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-2 text-xs font-bold text-white shadow-md shadow-purple-500/25 transition hover:brightness-110"
+                    >
+                        <span>Dashboard</span>
+                        <span class="text-xs">→</span>
                     </Link>
 
                     <Link
                         v-else
                         :href="login()"
-                        class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-2 text-xs font-bold text-white shadow-md shadow-purple-500/25 transition hover:brightness-110"
                     >
-                        Masuk
-                        <span>→</span>
+                        <span>Masuk</span>
+                        <span class="text-xs">→</span>
                     </Link>
                 </div>
-            </div>
+            </nav>
         </header>
 
-        <main>
-            <!-- HERO SECTION -->
-            <section
-                id="beranda"
-                class="relative overflow-hidden bg-gradient-to-br from-[#F0F5FF] via-white to-[#F5F8FF]"
-            >
-                <div
-                    class="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-blue-200/20 blur-3xl"
-                ></div>
-                <div
-                    class="absolute -bottom-48 -left-32 h-[400px] w-[400px] rounded-full bg-indigo-200/20 blur-3xl"
-                ></div>
+        <!-- HERO SECTION (CourseHub Style with Purple Lavender Accent) -->
+        <section id="beranda" class="relative overflow-hidden pt-36 pb-20 lg:pt-44 lg:pb-32">
+            <!-- AMBIENT PURPLE GLOWS -->
+            <div class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-purple-200/50 via-indigo-100/30 to-transparent blur-3xl"></div>
+            <div class="pointer-events-none absolute -right-40 top-1/4 -z-10 h-96 w-96 rounded-full bg-purple-300/30 blur-3xl"></div>
+            <div class="pointer-events-none absolute -left-40 top-1/2 -z-10 h-96 w-96 rounded-full bg-fuchsia-200/25 blur-3xl"></div>
 
-                <div
-                    class="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-28"
-                >
-                    <!-- HERO TEXT -->
-                    <div class="relative z-10">
-                        <div
-                            class="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-[11px] font-bold tracking-wide text-blue-700 shadow-sm"
-                        >
-                            <span
-                                class="h-2 w-2 rounded-full bg-blue-500"
-                            ></span>
-                            SISTEM MANAJEMEN BIMBINGAN BELAJAR
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+
+                    <!-- HERO COPY -->
+                    <div class="lg:col-span-7">
+                        <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-purple-200/70 bg-purple-100/70 px-4 py-1.5 shadow-sm backdrop-blur-md">
+                            <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
+                            <span class="text-[11px] font-bold tracking-[1.5px] text-purple-800">
+                                MODERN BIMBEL MANAGEMENT PLATFORM
+                            </span>
                         </div>
 
-                        <h1
-                            class="max-w-xl text-4xl leading-[1.2] font-extrabold tracking-tight text-[#14264B] sm:text-5xl lg:text-[57px]"
-                        >
-                            Kelola Bimbingan Belajar
-                            <span
-                                class="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent"
-                            >
-                                Lebih Mudah.
+                        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl lg:leading-[1.15]">
+                            Kelola Bimbel Modern,
+                            <span class="block bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-800 bg-clip-text text-transparent">
+                                Wujudkan Masa Depan Juara.
                             </span>
                         </h1>
 
-                        <p
-                            class="mt-6 max-w-lg text-sm leading-7 text-slate-500 sm:text-base"
-                        >
-                            Satu sistem untuk mengelola seluruh aktivitas
-                            bimbingan belajar. Mulai dari data siswa, tutor,
-                            kelas, jadwal, absensi, hingga pembayaran dan
-                            laporan.
+                        <p class="mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+                            BimbelPro membantu pengelola bimbingan belajar mengatur data siswa, presensi digital, jadwal belajar, administrasi pembayaran, dan penerimaan tutor pengajar berkualitas dalam satu sistem terintegrasi.
                         </p>
 
-                        <div class="mt-9 flex flex-wrap items-center gap-4">
+                        <!-- CTA BUTTONS -->
+                        <div class="mt-8 flex flex-wrap items-center gap-4">
                             <Link
-                                :href="login()"
-                                v-if="!$page.props.auth.user"
-                                class="inline-flex items-center gap-3 rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-200 transition hover:-translate-y-1 hover:bg-blue-700"
+                                href="/daftar-tutor"
+                                class="inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 px-7 py-3.5 text-sm font-extrabold text-white shadow-xl shadow-purple-500/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-purple-500/35"
                             >
-                                Masuk ke Sistem
+                                <span>Daftar Jadi Calon Tutor</span>
                                 <span class="text-lg">→</span>
                             </Link>
 
                             <Link
-                                :href="dashboard()"
-                                v-else
-                                class="inline-flex items-center gap-3 rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-200 transition hover:-translate-y-1 hover:bg-blue-700"
+                                href="/informasi-pendaftaran"
+                                class="inline-flex items-center gap-2 rounded-2xl border border-purple-200/80 bg-white/80 px-6 py-3.5 text-sm font-bold text-purple-900 shadow-sm backdrop-blur-md transition hover:bg-purple-50 hover:border-purple-300"
                             >
-                                Buka Dashboard
-                                <span class="text-lg">→</span>
+                                <span>Alur & Cek Pendaftaran</span>
                             </Link>
-
-                            <a
-                                href="#fitur"
-                                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-bold text-slate-600 transition hover:border-blue-300 hover:text-blue-600"
-                            >
-                                Pelajari Fitur
-                            </a>
                         </div>
 
-                        <div
-                            class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-xs font-semibold text-slate-500"
-                        >
-                            <div class="flex items-center gap-2">
-                                <span
-                                    class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-blue-600"
-                                >
-                                    ✓
-                                </span>
-                                Data terpusat
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span
-                                    class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-blue-600"
-                                >
-                                    ✓
-                                </span>
-                                Hak akses pengguna
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span
-                                    class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-blue-600"
-                                >
-                                    ✓
-                                </span>
-                                Mudah digunakan
+                        <!-- STATS BADGES (CourseHub Style) -->
+                        <div class="mt-12 grid grid-cols-2 gap-6 border-t border-purple-100/80 pt-8 sm:grid-cols-4">
+                            <div v-for="stat in stats" :key="stat.label">
+                                <p class="text-2xl font-extrabold tracking-tight text-purple-950 sm:text-3xl">
+                                    {{ stat.value }}
+                                </p>
+                                <p class="mt-1 text-xs font-semibold text-slate-500">
+                                    {{ stat.label }}
+                                </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DASHBOARD PREVIEW -->
-                    <div class="relative mx-auto w-full max-w-[570px]">
-                        <div
-                            class="absolute -right-7 -top-7 h-32 w-32 rounded-full bg-blue-300/20 blur-2xl"
-                        ></div>
-                        <div
-                            class="absolute -bottom-8 -left-8 h-40 w-40 rounded-full bg-indigo-300/20 blur-2xl"
-                        ></div>
+                    <!-- HERO VISUAL (Card Preview CourseHub Style) -->
+                    <div class="relative lg:col-span-5">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
 
-                        <div
-                            class="relative overflow-hidden rounded-[24px] border border-slate-200/80 bg-white p-3 shadow-[0_25px_80px_-25px_rgba(37,99,235,0.25)] sm:p-5"
-                        >
-                            <!-- PREVIEW TOP BAR -->
-                            <div
-                                class="mb-4 flex items-center justify-between border-b border-slate-100 pb-4"
-                            >
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="h-2.5 w-2.5 rounded-full bg-red-400"
-                                    ></span>
-                                    <span
-                                        class="h-2.5 w-2.5 rounded-full bg-amber-400"
-                                    ></span>
-                                    <span
-                                        class="h-2.5 w-2.5 rounded-full bg-green-400"
-                                    ></span>
-                                </div>
-                                <div
-                                    class="rounded-md bg-slate-50 px-4 py-1.5 text-[9px] font-medium text-slate-400"
-                                >
-                                    BimbelPro Management
-                                </div>
-                                <span
-                                    class="text-xs font-bold text-blue-600"
-                                >
-                                    ●
-                                </span>
-                            </div>
+                            <!-- GLASS CARD HIGHLIGHT -->
+                            <div class="relative rounded-3xl border border-white/80 bg-white/80 p-6 shadow-2xl shadow-purple-500/10 backdrop-blur-xl sm:p-8">
 
-                            <div class="flex gap-3">
-                                <!-- PREVIEW SIDEBAR -->
-                                <div
-                                    class="hidden w-[120px] shrink-0 rounded-xl bg-[#142B55] p-3 sm:block"
-                                >
-                                    <div
-                                        class="mb-7 flex items-center gap-1.5 text-white"
-                                    >
-                                        <svg
-                                            class="h-5 w-5"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                        >
-                                            <path
-                                                d="m2 10 10-6 10 6-10 6-10-6Z"
-                                            />
-                                            <path
-                                                d="M6 12.5v4.5c3.5 3 8.5 3 12 0v-4.5"
-                                            />
-                                        </svg>
-                                        <span class="text-[10px] font-bold">
-                                            BimbelPro
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        class="space-y-3 text-[9px] font-medium text-blue-100"
-                                    >
-                                        <div
-                                            class="rounded-md bg-blue-500 px-2 py-2 text-white"
-                                        >
-                                            ▦ Dashboard
+                                <!-- CARD HEADER BADGE -->
+                                <div class="flex items-center justify-between border-b border-purple-50 pb-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-purple-100 text-purple-700">
+                                            ▤
                                         </div>
-                                        <div>♙ Data Siswa</div>
-                                        <div>♧ Data Tutor</div>
-                                        <div>▤ Kelas</div>
-                                        <div>▦ Jadwal</div>
-                                        <div>☷ Absensi</div>
-                                        <div>▣ Pembayaran</div>
-                                    </div>
-                                </div>
-
-                                <!-- PREVIEW CONTENT -->
-                                <div class="min-w-0 flex-1">
-                                    <div
-                                        class="mb-4 flex items-center justify-between"
-                                    >
                                         <div>
-                                            <p
-                                                class="text-[12px] font-extrabold text-slate-800 sm:text-sm"
-                                            >
-                                                Ringkasan Aktivitas
-                                            </p>
-                                            <p
-                                                class="mt-1 text-[9px] text-slate-400"
-                                            >
-                                                Selamat datang di BimbelPro
-                                            </p>
-                                        </div>
-                                        <div
-                                            class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-xs text-blue-600"
-                                        >
-                                            ♙
+                                            <p class="text-[10px] font-bold tracking-wider text-purple-600 uppercase">Kelas Aktif</p>
+                                            <h3 class="text-base font-extrabold text-slate-900">12 IPA UTBK SNBT</h3>
                                         </div>
                                     </div>
+                                    <span class="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-600">
+                                        ● Berlangsung
+                                    </span>
+                                </div>
 
-                                    <!-- MINI STATISTICS -->
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div
-                                            class="rounded-xl border border-blue-100 bg-blue-50/70 p-3"
-                                        >
-                                            <p
-                                                class="text-[9px] font-semibold text-slate-500"
-                                            >
-                                                Total Siswa
-                                            </p>
-                                            <p
-                                                class="mt-2 text-xl font-extrabold text-blue-700"
-                                            >
-                                                —
-                                            </p>
-                                            <p
-                                                class="mt-1 text-[8px] text-slate-400"
-                                            >
-                                                Data siswa terdaftar
-                                            </p>
+                                <!-- TUTOR PROFILE CHIP -->
+                                <div class="mt-5 flex items-center justify-between rounded-2xl bg-purple-50/60 p-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600 text-sm font-bold text-white">
+                                            RH
                                         </div>
-                                        <div
-                                            class="rounded-xl border border-indigo-100 bg-indigo-50/70 p-3"
-                                        >
-                                            <p
-                                                class="text-[9px] font-semibold text-slate-500"
-                                            >
-                                                Total Tutor
-                                            </p>
-                                            <p
-                                                class="mt-2 text-xl font-extrabold text-indigo-700"
-                                            >
-                                                —
-                                            </p>
-                                            <p
-                                                class="mt-1 text-[8px] text-slate-400"
-                                            >
-                                                Pengajar terdaftar
-                                            </p>
-                                        </div>
-                                        <div
-                                            class="rounded-xl border border-emerald-100 bg-emerald-50/70 p-3"
-                                        >
-                                            <p
-                                                class="text-[9px] font-semibold text-slate-500"
-                                            >
-                                                Kelas Aktif
-                                            </p>
-                                            <p
-                                                class="mt-2 text-xl font-extrabold text-emerald-700"
-                                            >
-                                                —
-                                            </p>
-                                            <p
-                                                class="mt-1 text-[8px] text-slate-400"
-                                            >
-                                                Kelas pembelajaran
-                                            </p>
-                                        </div>
-                                        <div
-                                            class="rounded-xl border border-amber-100 bg-amber-50/70 p-3"
-                                        >
-                                            <p
-                                                class="text-[9px] font-semibold text-slate-500"
-                                            >
-                                                Tagihan
-                                            </p>
-                                            <p
-                                                class="mt-2 text-xl font-extrabold text-amber-700"
-                                            >
-                                                —
-                                            </p>
-                                            <p
-                                                class="mt-1 text-[8px] text-slate-400"
-                                            >
-                                                Ringkasan pembayaran
-                                            </p>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-800">Rian Hidayat, S.Pd.</p>
+                                            <p class="text-[11px] text-purple-600 font-medium">Tutor Matematika & TPS</p>
                                         </div>
                                     </div>
+                                    <span class="text-xs font-bold text-slate-700">15:30 - 17:00</span>
+                                </div>
 
-                                    <!-- MINI SCHEDULE -->
-                                    <div
-                                        class="mt-3 rounded-xl border border-slate-100 p-3"
-                                    >
-                                        <div
-                                            class="mb-3 flex items-center justify-between"
-                                        >
-                                            <p
-                                                class="text-[10px] font-extrabold text-slate-700"
-                                            >
-                                                Jadwal Pembelajaran
-                                            </p>
-                                            <span
-                                                class="text-[8px] font-bold text-blue-600"
-                                            >
-                                                Lihat Jadwal →
-                                            </span>
-                                        </div>
-
-                                        <div class="space-y-3">
-                                            <div
-                                                class="flex items-center gap-2"
-                                            >
-                                                <div
-                                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-xs text-blue-700"
-                                                >
-                                                    M
-                                                </div>
-                                                <div class="min-w-0 flex-1">
-                                                    <p
-                                                        class="text-[9px] font-bold text-slate-700"
-                                                    >
-                                                        Matematika
-                                                    </p>
-                                                    <p
-                                                        class="text-[8px] text-slate-400"
-                                                    >
-                                                        Jadwal kelas
-                                                    </p>
-                                                </div>
-                                                <span
-                                                    class="rounded-full bg-blue-50 px-2 py-1 text-[8px] font-bold text-blue-600"
-                                                >
-                                                    Terjadwal
-                                                </span>
-                                            </div>
-                                            <div
-                                                class="flex items-center gap-2"
-                                            >
-                                                <div
-                                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 text-xs text-purple-700"
-                                                >
-                                                    B
-                                                </div>
-                                                <div class="min-w-0 flex-1">
-                                                    <p
-                                                        class="text-[9px] font-bold text-slate-700"
-                                                    >
-                                                        Bahasa Inggris
-                                                    </p>
-                                                    <p
-                                                        class="text-[8px] text-slate-400"
-                                                    >
-                                                        Jadwal kelas
-                                                    </p>
-                                                </div>
-                                                <span
-                                                    class="rounded-full bg-purple-50 px-2 py-1 text-[8px] font-bold text-purple-600"
-                                                >
-                                                    Terjadwal
-                                                </span>
-                                            </div>
-                                        </div>
+                                <!-- ATTENDANCE STATS PREVIEW -->
+                                <div class="mt-5 space-y-3">
+                                    <div class="flex items-center justify-between text-xs font-bold">
+                                        <span class="text-slate-600">Presensi Kehadiran Siswa</span>
+                                        <span class="text-purple-700">95% Hadir</span>
+                                    </div>
+                                    <div class="h-2.5 w-full overflow-hidden rounded-full bg-purple-100">
+                                        <div class="h-full rounded-full bg-gradient-to-r from-purple-500 to-indigo-600" style="width: 95%"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div
-                            class="absolute -bottom-5 -left-4 hidden rounded-xl border border-slate-100 bg-white px-4 py-3 shadow-xl sm:block"
-                        >
-                            <div class="flex items-center gap-2">
-                                <div
-                                    class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100 text-lg text-blue-600"
-                                >
-                                    ✓
+                                <!-- FLOATING ACCENT PILL 1 -->
+                                <div class="mt-6 flex items-center justify-between rounded-xl border border-purple-100 bg-white p-3.5 shadow-sm">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-xs font-bold text-emerald-700">✓</span>
+                                        <p class="text-xs font-bold text-slate-700">Seleksi Calon Tutor</p>
+                                    </div>
+                                    <span class="rounded-lg bg-purple-100/80 px-2.5 py-1 text-[10px] font-bold text-purple-700">
+                                        Sistem Seleksi Aktif
+                                    </span>
                                 </div>
-                                <div>
-                                    <p
-                                        class="text-[10px] font-extrabold text-slate-800"
-                                    >
-                                        Data Terintegrasi
-                                    </p>
-                                    <p class="text-[9px] text-slate-400">
-                                        Dalam satu sistem
-                                    </p>
+
+                                <!-- FLOATING ACCENT PILL 2 -->
+                                <div class="mt-3 flex items-center justify-between rounded-xl border border-purple-100 bg-white p-3.5 shadow-sm">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 text-xs font-bold text-indigo-700">Rp</span>
+                                        <p class="text-xs font-bold text-slate-700">Manajemen Tagihan SPP</p>
+                                    </div>
+                                    <span class="text-xs font-bold text-emerald-600">Lunas Otomatis</span>
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
-                    <p
-                        class="relative mt-9 text-center text-[10px] text-slate-400 lg:hidden"
-                    >
-                        Ilustrasi tampilan aplikasi BimbelPro
+                </div>
+            </div>
+        </section>
+
+        <!-- TOP FEATURES GRID (Inspired by CourseHub "Explore Top Categories") -->
+        <section id="fitur" class="py-20 lg:py-24">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="text-center">
+                    <p class="text-xs font-bold tracking-[2px] text-purple-600 uppercase">
+                        FITUR UTAMA BIMBELPRO
                     </p>
-                </div>
-            </section>
-
-            <!-- FEATURE SECTION -->
-            <section id="fitur" class="bg-white py-24">
-                <div class="mx-auto max-w-7xl px-5 lg:px-8">
-                    <div class="mx-auto mb-14 max-w-2xl text-center">
-                        <span
-                            class="text-[11px] font-extrabold tracking-[3px] text-blue-600"
-                        >
-                            FITUR UNGGULAN
-                        </span>
-                        <h2
-                            class="mt-4 text-3xl font-extrabold tracking-tight text-[#14264B] sm:text-4xl"
-                        >
-                            Semua Kebutuhan Bimbel,
-                            <span class="text-blue-600">Satu Sistem.</span>
-                        </h2>
-                        <p
-                            class="mt-4 text-sm leading-7 text-slate-500"
-                        >
-                            Kelola kegiatan operasional bimbingan belajar
-                            dengan fitur yang saling terintegrasi dan mudah
-                            digunakan.
-                        </p>
-                    </div>
-
-                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                        <!-- FEATURE 1 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                    <circle cx="10" cy="7" r="4" />
-                                    <path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Data Siswa
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Kelola identitas, jenjang pendidikan, dan
-                                status setiap siswa.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 2 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <circle cx="12" cy="8" r="4" />
-                                    <path d="M4 21a8 8 0 0 1 16 0" />
-                                    <path d="m16 11 2 2 4-4" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Data Tutor
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Kelola profil pengajar, bidang keahlian, dan
-                                akun tutor.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 3 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition group-hover:bg-emerald-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
-                                    <path d="M8 7h8M8 11h8" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Manajemen Kelas
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Atur mata pelajaran, tutor pengajar, dan
-                                anggota setiap kelas.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 4 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-600 transition group-hover:bg-amber-500 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <rect x="3" y="4" width="18" height="17" rx="2" />
-                                    <path d="M16 2v4M8 2v4M3 10h18M8 14h2M8 17h2M14 14h2" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Jadwal Belajar
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Atur hari, waktu, ruang belajar, dan jadwal
-                                mengajar tutor.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 5 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-50 text-purple-600 transition group-hover:bg-purple-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <rect x="5" y="3" width="14" height="18" rx="2" />
-                                    <path d="M9 3v2h6V3M8 12l2 2 5-5M8 17h8" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Absensi Siswa
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Catat kehadiran siswa berdasarkan sesi
-                                pembelajaran.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 6 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-600 transition group-hover:bg-rose-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <rect x="2" y="5" width="20" height="15" rx="2" />
-                                    <path d="M2 10h20M6 15h4" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Pembayaran
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Kelola tagihan, transaksi pembayaran, dan sisa
-                                tagihan siswa.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 7 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600 transition group-hover:bg-cyan-600 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <path d="M3 3v18h18" />
-                                    <path d="m7 14 4-4 4 3 6-7" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Laporan
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Pantau rekap siswa, kelas, absensi, dan
-                                pembayaran.
-                            </p>
-                        </div>
-
-                        <!-- FEATURE 8 -->
-                        <div
-                            class="group rounded-2xl border border-slate-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60"
-                        >
-                            <div
-                                class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700 transition group-hover:bg-slate-700 group-hover:text-white"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                >
-                                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
-                                    <path d="m9 12 2 2 4-4" />
-                                </svg>
-                            </div>
-                            <h3 class="text-sm font-extrabold text-[#172554]">
-                                Hak Akses Pengguna
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Pisahkan wewenang Admin dan Tutor sesuai
-                                tanggung jawabnya.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- HOW IT WORKS -->
-            <section
-                id="cara-kerja"
-                class="bg-[#F3F6FC] py-24"
-            >
-                <div class="mx-auto max-w-7xl px-5 lg:px-8">
-                    <div class="mx-auto mb-14 max-w-2xl text-center">
-                        <span
-                            class="text-[11px] font-extrabold tracking-[3px] text-blue-600"
-                        >
-                            CARA KERJA
-                        </span>
-                        <h2
-                            class="mt-4 text-3xl font-extrabold tracking-tight text-[#14264B] sm:text-4xl"
-                        >
-                            Pengelolaan Lebih
-                            <span class="text-blue-600">Terstruktur.</span>
-                        </h2>
-                        <p
-                            class="mt-4 text-sm leading-7 text-slate-500"
-                        >
-                            Seluruh aktivitas bimbingan belajar dikelola
-                            melalui alur kerja yang saling terhubung.
-                        </p>
-                    </div>
-
-                    <div class="grid gap-6 md:grid-cols-3">
-                        <!-- STEP 1 -->
-                        <div
-                            class="relative rounded-2xl border border-slate-100 bg-white p-7 shadow-sm"
-                        >
-                            <span
-                                class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-lg font-extrabold text-white shadow-lg shadow-blue-200"
-                            >
-                                01
-                            </span>
-                            <h3 class="text-base font-extrabold text-[#172554]">
-                                Admin Mengelola Data
-                            </h3>
-                            <p
-                                class="mt-3 text-xs leading-7 text-slate-500"
-                            >
-                                Admin mengatur data siswa, tutor, kelas, jadwal
-                                belajar, serta administrasi bimbingan belajar.
-                            </p>
-                        </div>
-
-                        <!-- STEP 2 -->
-                        <div
-                            class="relative rounded-2xl border border-slate-100 bg-white p-7 shadow-sm"
-                        >
-                            <span
-                                class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-lg font-extrabold text-white shadow-lg shadow-indigo-200"
-                            >
-                                02
-                            </span>
-                            <h3 class="text-base font-extrabold text-[#172554]">
-                                Tutor Melaksanakan Pembelajaran
-                            </h3>
-                            <p
-                                class="mt-3 text-xs leading-7 text-slate-500"
-                            >
-                                Tutor melihat jadwal dan kelas yang menjadi
-                                tanggung jawabnya, kemudian mencatat absensi
-                                siswa.
-                            </p>
-                        </div>
-
-                        <!-- STEP 3 -->
-                        <div
-                            class="relative rounded-2xl border border-slate-100 bg-white p-7 shadow-sm"
-                        >
-                            <span
-                                class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600 text-lg font-extrabold text-white shadow-lg shadow-emerald-200"
-                            >
-                                03
-                            </span>
-                            <h3 class="text-base font-extrabold text-[#172554]">
-                                Admin Memantau Laporan
-                            </h3>
-                            <p
-                                class="mt-3 text-xs leading-7 text-slate-500"
-                            >
-                                Admin memantau kehadiran, tagihan, pembayaran,
-                                dan laporan aktivitas bimbingan belajar.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ABOUT SECTION -->
-            <section id="tentang" class="bg-white py-24">
-                <div
-                    class="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:px-8"
-                >
-                    <div>
-                        <span
-                            class="text-[11px] font-extrabold tracking-[3px] text-blue-600"
-                        >
-                            TENTANG BIMBELPRO
-                        </span>
-                        <h2
-                            class="mt-4 text-3xl leading-tight font-extrabold tracking-tight text-[#14264B] sm:text-4xl"
-                        >
-                            Administrasi Bimbel dalam Satu
-                            <span class="text-blue-600">Genggaman.</span>
-                        </h2>
-                        <p
-                            class="mt-5 text-sm leading-7 text-slate-500"
-                        >
-                            BimbelPro merupakan sistem informasi manajemen
-                            berbasis web yang dirancang untuk membantu
-                            pengelola bimbingan belajar mengatur kegiatan
-                            operasional secara lebih terpusat, rapi, dan
-                            efisien.
-                        </p>
-                        <p
-                            class="mt-3 text-sm leading-7 text-slate-500"
-                        >
-                            Dengan pembagian hak akses Admin dan Tutor,
-                            setiap pengguna dapat menjalankan tugasnya
-                            sesuai tanggung jawab masing-masing.
-                        </p>
-
-                        <div class="mt-7">
-                            <Link
-                                :href="login()"
-                                v-if="!$page.props.auth.user"
-                                class="inline-flex items-center gap-3 rounded-xl bg-[#142B55] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-blue-700"
-                            >
-                                Mulai Gunakan Sistem
-                                <span>→</span>
-                            </Link>
-                            <Link
-                                :href="dashboard()"
-                                v-else
-                                class="inline-flex items-center gap-3 rounded-xl bg-[#142B55] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-blue-700"
-                            >
-                                Buka Dashboard
-                                <span>→</span>
-                            </Link>
-                        </div>
-                    </div>
-
-                    <!-- BENEFIT CARDS -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div
-                            class="rounded-2xl bg-[#EEF4FF] p-6"
-                        >
-                            <div
-                                class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-xl text-white"
-                            >
-                                ✓
-                            </div>
-                            <h3
-                                class="text-sm font-extrabold text-[#172554]"
-                            >
-                                Data Terpusat
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Informasi tersimpan dalam satu sistem
-                                terintegrasi.
-                            </p>
-                        </div>
-
-                        <div
-                            class="mt-8 rounded-2xl bg-[#F0EEFF] p-6"
-                        >
-                            <div
-                                class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-600 text-xl text-white"
-                            >
-                                ◈
-                            </div>
-                            <h3
-                                class="text-sm font-extrabold text-[#172554]"
-                            >
-                                Hak Akses
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Akses disesuaikan dengan peran masing-masing
-                                pengguna.
-                            </p>
-                        </div>
-
-                        <div
-                            class="rounded-2xl bg-[#EAF8F2] p-6"
-                        >
-                            <div
-                                class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-xl text-white"
-                            >
-                                ↗
-                            </div>
-                            <h3
-                                class="text-sm font-extrabold text-[#172554]"
-                            >
-                                Lebih Efisien
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Pengelolaan administrasi menjadi lebih
-                                terorganisir.
-                            </p>
-                        </div>
-
-                        <div
-                            class="mt-8 rounded-2xl bg-[#FFF6E8] p-6"
-                        >
-                            <div
-                                class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500 text-xl text-white"
-                            >
-                                ≡
-                            </div>
-                            <h3
-                                class="text-sm font-extrabold text-[#172554]"
-                            >
-                                Laporan Terstruktur
-                            </h3>
-                            <p
-                                class="mt-2 text-xs leading-6 text-slate-500"
-                            >
-                                Informasi aktivitas bimbel lebih mudah
-                                dipantau.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA SECTION -->
-            <section class="bg-[#142B55] px-5 py-20 lg:px-8">
-                <div class="mx-auto max-w-4xl text-center">
-                    <span
-                        class="text-[11px] font-extrabold tracking-[3px] text-blue-300"
-                    >
-                        BIMBELPRO MANAGEMENT SYSTEM
-                    </span>
-                    <h2
-                        class="mt-5 text-3xl leading-tight font-extrabold tracking-tight text-white sm:text-4xl"
-                    >
-                        Kelola Bimbingan Belajar
-                        <span class="text-blue-300">Lebih Terarah.</span>
+                    <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                        Semua Kebutuhan Bimbingan Belajar, Dalam Satu Platform
                     </h2>
-                    <p
-                        class="mx-auto mt-5 max-w-2xl text-sm leading-7 text-blue-100/70"
-                    >
-                        Mulai kelola aktivitas bimbingan belajar secara
-                        terpusat melalui BimbelPro.
+                    <p class="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+                        Dirancang khusus untuk institusi bimbel, mempermudah koordinasi antara Administrator, Tutor Pengajar, dan Siswa.
                     </p>
+                </div>
 
-                    <Link
-                        :href="login()"
-                        v-if="!$page.props.auth.user"
-                        class="mt-9 inline-flex items-center gap-3 rounded-xl bg-white px-7 py-3.5 text-sm font-extrabold text-blue-700 shadow-xl transition hover:-translate-y-1 hover:bg-blue-50"
+                <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        v-for="feature in features"
+                        :key="feature.title"
+                        class="group relative rounded-3xl border border-purple-100/80 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-purple-200 hover:shadow-xl hover:shadow-purple-500/10"
                     >
-                        Masuk ke BimbelPro
-                        <span class="text-lg">→</span>
-                    </Link>
-                    <Link
-                        :href="dashboard()"
-                        v-else
-                        class="mt-9 inline-flex items-center gap-3 rounded-xl bg-white px-7 py-3.5 text-sm font-extrabold text-blue-700 shadow-xl transition hover:-translate-y-1 hover:bg-blue-50"
-                    >
-                        Buka Dashboard
-                        <span class="text-lg">→</span>
+                        <div
+                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl text-white shadow-md"
+                            :class="feature.color"
+                        >
+                            {{ feature.icon }}
+                        </div>
+
+                        <h3 class="mt-6 text-lg font-extrabold text-slate-900 group-hover:text-purple-700 transition">
+                            {{ feature.title }}
+                        </h3>
+
+                        <p class="mt-3 text-xs leading-6 text-slate-500 sm:text-sm">
+                            {{ feature.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL FEATURE: SISTEM PENERIMAAN TUTOR (The Differentiator Feature) -->
+        <section id="seleksi-tutor" class="relative py-20 lg:py-24">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="overflow-hidden rounded-3xl border border-purple-200/70 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-950 p-8 text-white shadow-2xl sm:p-12 lg:p-16">
+                    <div class="grid items-center gap-10 lg:grid-cols-12">
+                        <div class="lg:col-span-7">
+                            <span class="rounded-full bg-purple-500/30 px-3.5 py-1.5 text-[10px] font-bold tracking-[2px] text-purple-200 uppercase">
+                                FITUR PEMBEDA BIMBELPRO
+                            </span>
+
+                            <h2 class="mt-5 text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
+                                Sistem Penerimaan & Seleksi Calon Tutor Terstruktur
+                            </h2>
+
+                            <p class="mt-4 text-sm leading-relaxed text-purple-100/80 sm:text-base">
+                                Calon tutor yang mendaftar tidak otomatis menjadi pengguna aktif. Data tersimpan sebagai calon dan melalui proses peninjauan berkas serta wawancara oleh Admin. Setelah disetujui, sistem secara otomatis menerbitkan akun login tutor.
+                            </p>
+
+                            <!-- 4 STEP PIPELINE -->
+                            <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+                                    <span class="text-xs font-bold text-purple-300">Tahap 1</span>
+                                    <p class="mt-1 text-sm font-extrabold text-white">Pendaftaran</p>
+                                    <p class="mt-1 text-[11px] text-purple-200/70">Pengisian biodata & portofolio</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+                                    <span class="text-xs font-bold text-purple-300">Tahap 2</span>
+                                    <p class="mt-1 text-sm font-extrabold text-white">Peninjauan</p>
+                                    <p class="mt-1 text-[11px] text-purple-200/70">Admin meninjau berkas</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+                                    <span class="text-xs font-bold text-purple-300">Tahap 3</span>
+                                    <p class="mt-1 text-sm font-extrabold text-white">Seleksi</p>
+                                    <p class="mt-1 text-[11px] text-purple-200/70">Microteaching & wawancara</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+                                    <span class="text-xs font-bold text-purple-300">Tahap 4</span>
+                                    <p class="mt-1 text-sm font-extrabold text-white">Aktivasi Akun</p>
+                                    <p class="mt-1 text-[11px] text-purple-200/70">Akun tutor siap digunakan</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 flex flex-wrap items-center gap-4">
+                                <Link
+                                    href="/daftar-tutor"
+                                    class="rounded-xl bg-white px-6 py-3 text-xs font-extrabold text-purple-900 shadow-lg transition hover:bg-purple-50"
+                                >
+                                    Daftar Sekarang →
+                                </Link>
+                                <Link
+                                    href="/informasi-pendaftaran"
+                                    class="rounded-xl border border-white/30 px-6 py-3 text-xs font-bold text-white transition hover:bg-white/10"
+                                >
+                                    Cek Status Pengajuan
+                                </Link>
+                            </div>
+                        </div>
+
+                        <!-- STATUS BADGE SHOWCASE -->
+                        <div class="space-y-3 lg:col-span-5">
+                            <div class="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-purple-200">Status 1</span>
+                                    <span class="rounded-full bg-amber-400/20 px-3 py-1 text-[10px] font-bold text-amber-300">Menunggu</span>
+                                </div>
+                                <p class="mt-2 text-xs text-purple-100/70">Berkas baru masuk dan menunggu antrean pemeriksaan Admin.</p>
+                            </div>
+
+                            <div class="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-purple-200">Status 2</span>
+                                    <span class="rounded-full bg-blue-400/20 px-3 py-1 text-[10px] font-bold text-blue-300">Sedang Ditinjau</span>
+                                </div>
+                                <p class="mt-2 text-xs text-purple-100/70">Admin sedang memverifikasi kualifikasi atau menjadwalkan wawancara.</p>
+                            </div>
+
+                            <div class="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-purple-200">Status 3</span>
+                                    <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-bold text-emerald-300">Diterima</span>
+                                </div>
+                                <p class="mt-2 text-xs text-purple-100/70">Lolos seleksi! Akun Tutor dibuat dan diaktifkan otomatis ke portal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POPULAR CLASSES SECTION (CourseHub Style) -->
+        <section class="py-20">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="text-xs font-bold tracking-[2px] text-purple-600 uppercase">
+                            PROGRAM & KELAS TERFAVORIT
+                        </p>
+                        <h2 class="mt-2 text-3xl font-extrabold text-slate-900">
+                            Kelas Unggulan BimbelPro
+                        </h2>
+                    </div>
+                    <Link href="/login" class="text-xs font-bold text-purple-600 hover:text-purple-800">
+                        Masuk ke Dashboard Sistem →
                     </Link>
                 </div>
-            </section>
-        </main>
+
+                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        v-for="item in sampleClasses"
+                        :key="item.title"
+                        class="overflow-hidden rounded-3xl border border-purple-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
+                    >
+                        <div class="flex items-center justify-between">
+                            <span class="rounded-full bg-purple-100 px-3 py-1 text-[10px] font-bold text-purple-700">
+                                {{ item.badge }}
+                            </span>
+                            <span class="text-xs font-bold text-amber-500">★ {{ item.rating }}</span>
+                        </div>
+
+                        <h3 class="mt-5 text-lg font-extrabold text-slate-900">
+                            {{ item.title }}
+                        </h3>
+
+                        <p class="mt-2 text-xs font-semibold text-purple-600">
+                            {{ item.category }}
+                        </p>
+
+                        <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+                            <div class="flex items-center gap-2">
+                                <div class="flex h-7 w-7 items-center justify-center rounded-full bg-purple-100 text-xs font-bold text-purple-700">
+                                    {{ item.tutor.charAt(0) }}
+                                </div>
+                                <span class="text-xs font-medium text-slate-600">{{ item.tutor }}</span>
+                            </div>
+                            <span class="text-xs font-bold text-slate-500">{{ item.sessions }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- FOOTER -->
-        <footer class="border-t border-slate-100 bg-white">
-            <div
-                class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-5 py-8 sm:flex-row lg:px-8"
-            >
-                <a href="#beranda" class="flex items-center gap-2">
-                    <div
-                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white"
-                    >
-                        <svg
-                            class="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                        >
-                            <path d="m2 10 10-6 10 6-10 6-10-6Z" />
-                            <path d="M6 12.5v4.5c3.5 3 8.5 3 12 0v-4.5" />
-                        </svg>
+        <footer class="border-t border-purple-100 bg-white py-12 text-slate-600">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-600 text-white font-bold">
+                            B
+                        </div>
+                        <span class="text-base font-extrabold text-slate-900">
+                            Bimbel<span class="text-purple-600">Pro</span>
+                        </span>
                     </div>
-                    <span
-                        class="text-lg font-extrabold tracking-tight text-[#172554]"
-                    >
-                        Bimbel<span class="text-blue-600">Pro</span>
-                    </span>
-                </a>
 
-                <p class="text-center text-[11px] text-slate-400">
-                    Sistem Informasi Manajemen Bimbingan Belajar Berbasis Web.
-                </p>
+                    <p class="text-xs text-slate-400">
+                        &copy; 2026 BimbelPro Management System. All rights reserved.
+                    </p>
 
-                <p class="text-[11px] font-medium text-slate-400">
-                    © {{ new Date().getFullYear() }} BimbelPro.
-                </p>
+                    <div class="flex items-center gap-6 text-xs font-semibold text-slate-500">
+                        <Link href="/daftar-tutor" class="hover:text-purple-600">Daftar Tutor</Link>
+                        <Link href="/informasi-pendaftaran" class="hover:text-purple-600">Alur Seleksi</Link>
+                        <Link href="/login" class="hover:text-purple-600">Masuk Akun</Link>
+                    </div>
+                </div>
             </div>
         </footer>
+
     </div>
 </template>
